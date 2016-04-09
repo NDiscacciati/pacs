@@ -14,5 +14,7 @@ std::ostream & operator << (std::ostream & out,const parameters & p)
   out<<"hc= "<<p.hc<<"\n";
   out<<"M= "<<p.M<<"\n\n";
   out<<"Output file= "<<p.name<<"\n";
+  out<<"Output mode= "<<p.see<<"\n";
+  out<<"Stopping criterion "<<(p.norm==1 ? "L2": "H1")<<" norm"<<"\n";
   return out;
 }

@@ -5,6 +5,7 @@
 #include <string>
 #include "readParameters.hpp"
 #include "GetPot.hpp"
+#include "solve.hpp"
 //#include "gnuplot-iostream.hpp"// interface with gnuplot
 /*!
   @file main.cpp
@@ -65,6 +66,7 @@ int main(int argc, char** argv)
   const auto& M=param.M; // Number of grid elements
   const auto& name=param.name; //Name of output file
   const int& see=param.see; //See the results on screen or file
+  const int& norm=param.norm; //Norm parameter
   
   //! Precomputed coefficient for adimensional form of equation
   const auto act=2.*(a1+a2)*hc*L*L/(k*a1*a2);
@@ -77,33 +79,49 @@ int main(int argc, char** argv)
   
   // Gauss Siedel is initialised with a linear variation
   // of T
+
+
+  
   
   for(unsigned int m=0;m <= M;++m)
      theta[m]=(1.-m*h)*(To-Te)/Te;
-  
+
+	status=solve(M,act,toler,itermax,theta,norm); 
   // Gauss-Seidel
   // epsilon=||x^{k+1}-x^{k}||
   // Stopping criteria epsilon<=toler
-  
+ /* 
   int iter=0;
+  double diff=0.;
   double xnew, epsilon;
      do
        { epsilon=0.;
 
-	 // first M-1 row of linear system
-         for(int m=1;m < M;m++)
+     //First row
+         {   
+	   xnew  = (theta[0]+theta[2])/(2.+h*h*act);
+	   //epsilon += (xnew-theta[1])*(xnew-theta[1]);
+	   epsilon+=h/3*(xnew-theta[1])*(xnew-theta[1]);
+	   diff= xnew-theta[1];
+	   theta[1] = xnew;
+         }
+
+	 //Central elements
+         for(int m=2;m < M;m++)
          {   
 	   xnew  = (theta[m-1]+theta[m+1])/(2.+h*h*act);
-	   epsilon += (xnew-theta[m])*(xnew-theta[m]);
+	   epsilon += h/3*(diff*diff+(xnew-theta[m])*(xnew-theta[m])+diff*(xnew-theta[m]));
+	   diff=xnew-theta[m];
 	   theta[m] = xnew;
          }
 
 	 //Last row
 	 xnew = theta[M-1]; 
-	 epsilon += (xnew-theta[M])*(xnew-theta[M]);
+	 epsilon += h/3*(diff*diff+(xnew-theta[M])*(xnew-theta[M])+diff*(xnew-theta[M]));
 	 theta[M]=  xnew; 
 
-	 iter=iter+1;     
+	 cout<<"L2 norm is "<<sqrt(epsilon)<<endl;
+	 iter++;     
        }while((sqrt(epsilon) > toler) && (iter < itermax) );
 
     if(iter<itermax)
@@ -114,6 +132,8 @@ int main(int argc, char** argv)
 	  "||dx||="<<sqrt(epsilon)<<endl;
 	status=1;
       }
+
+     */ 
 
  // Analitic solution
 

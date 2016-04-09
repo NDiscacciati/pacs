@@ -28,6 +28,8 @@ struct parameters
   std::string name;
   //! Switch parameter to show results
   int see;
+  //! Choice for stopping criterion
+  int norm;
   //! Constructor takes default values
   parameters():
     itermax(1000000),
@@ -41,7 +43,8 @@ struct parameters
     hc(1.e-6*200.),
     M(100),
     name("results.dat"),
-    see(1)
+    see(1),
+    norm(1)
   {}
 };
 //! Prints parameters
