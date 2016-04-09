@@ -21,4 +21,4 @@ hc=200.0e-6
 # Number of elements
 M=11
 # Name of output file
-name=prova.dat
+name=result.dat

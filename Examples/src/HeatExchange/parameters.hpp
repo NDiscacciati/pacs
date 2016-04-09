@@ -25,7 +25,7 @@ struct parameters
   //! Number of elements
   int M;
   //! Name of output file
-  string name;
+  std::string name;
   //! Constructor takes default values
   parameters():
     itermax(1000000),
@@ -38,7 +38,7 @@ struct parameters
     k(0.164),
     hc(1.e-6*200.),
     M(100),
-    string("result.dat")
+    name("results.dat")
   {}
 };
 //! Prints parameters
