@@ -1,0 +1,6 @@
+In all the challenges I comment the part of the code that uses Gnuplot in order to avoid an error (GetPot cannot create a temporary file). Anyway, without commenting this part the program still works.
+
+Challenge 1.1
+Nothing to add
+
+ 

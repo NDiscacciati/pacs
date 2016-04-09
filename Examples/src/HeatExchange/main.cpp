@@ -5,7 +5,7 @@
 #include <string>
 #include "readParameters.hpp"
 #include "GetPot.hpp"
-#include "gnuplot-iostream.hpp"// interface with gnuplot
+//#include "gnuplot-iostream.hpp"// interface with gnuplot
 /*!
   @file main.cpp
   @brief Temperature distribution in a 1D bar.
@@ -63,7 +63,8 @@ int main(int argc, char** argv)
   const auto& k=param.k;  // Thermal conductivity
   const auto& hc=param.hc; // Convection coefficient
   const auto& M=param.M; // Number of grid elements
-  const auto& name=param.name;
+  const auto& name=param.name; //Name of output file
+  const int& see=param.see; //See the results on screen or file
   
   //! Precomputed coefficient for adimensional form of equation
   const auto act=2.*(a1+a2)*hc*L*L/(k*a1*a2);
@@ -123,26 +124,36 @@ int main(int argc, char** argv)
      // writing results with format
      // x_i u_h(x_i) u(x_i) and lauch gnuplot 
 
-     Gnuplot gp;
-     std::vector<double> coor(M+1);
-     std::vector<double> sol(M+1);
-     std::vector<double> exact(M+1);
+     //Gnuplot gp;
+     //std::vector<double> coor(M+1);
+     //std::vector<double> sol(M+1);
+     //std::vector<double> exact(M+1);
 
-     cout<<"Result file: "<<name<<endl;
-     ofstream f(name);
+    cout<<"You have requested to print the results in mode "<<see<<endl;
+    ofstream file; 
+    int mysee=see; //auxiliary variable that I can modify
+    if (see%2==1) {file.open(name);  cout<<"Result file: "<<name<<endl;}
+    //ostream &f = cout;
+    do{
+     //ofstream f(name);
+      ostream &f = (mysee%2==1 ? file : cout);
      for(int m = 0; m<= M; m++)
        {
 	 // \t writes a tab 
          f<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;
 	 // An example of use of tie and tuples!
          
-	 std::tie(coor[m],sol[m],exact[m])=
-	   std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
+	 //std::tie(coor[m],sol[m],exact[m])=
+	   //std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
        }
+       mysee++;
+    } while (mysee==4);
+       /*
      // Using temporary files (another nice use of tie)
      gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<
        "w lp title 'uh',"<< gp.file1d(std::tie(coor,exact))<<
        "w l title 'uex'"<<std::endl;
-     f.close();
+       */
+     if (see%2==1) file.close();
      return status;
 }

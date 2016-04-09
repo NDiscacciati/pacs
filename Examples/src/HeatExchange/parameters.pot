@@ -22,3 +22,5 @@ hc=200.0e-6
 M=11
 # Name of output file
 name=result.dat
+# See the result on screen or file
+see=3
