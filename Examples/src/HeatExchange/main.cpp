@@ -66,7 +66,8 @@ int main(int argc, char** argv)
   const auto& hc=param.hc; // Convection coefficient
   const auto& M=param.M; // Number of grid elements
   const auto& name=param.name; //Name of output file
-  const int& see=param.see; //See the results on screen or file
+  //const int& see=param.see;
+  int see=const_cast<int&>(param.see); //See the results on screen or file
   const int& norm=param.norm; //Norm parameter
   
   //! Precomputed coefficient for adimensional form of equation
@@ -101,7 +102,7 @@ int main(int argc, char** argv)
 
   //Factorization
   alpha[0]=a[0];
-  for (unsigned int i=1; i<M; ++i){
+  for (int i=1; i<M; ++i){
   	beta[i-1]=b[i-1]/alpha[i-1];
   	alpha[i]=a[i]-beta[i-1]*c[i-1];
   	gamma[i-1]=c[i-1];
@@ -124,20 +125,18 @@ int main(int argc, char** argv)
 
     cout<<"You have requested to print the results in mode "<<see<<endl;
     ofstream file; 
-    int mysee=see; //auxiliary variable that I can modify
     if (see%2==1) {file.open(name);  cout<<"Result file: "<<name<<endl;}
-    //ostream &f = cout;
     do{
-     //ofstream f(name);
-      ostream &f = (mysee%2==1 ? file : cout);
+      ostream &ff = (see%2==1 ? file : cout);
+    	//ff = *(mysee%2==1 ? file : cout);
      for(int m = 0; m<= M; m++)
        {
-         f<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;       
-	 //std::tie(coor[m],sol[m],exact[m])=
+         ff<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;       
+	 	//std::tie(coor[m],sol[m],exact[m])=
 	   //std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
        }
-       mysee++;
-    } while (mysee==4);
+       see++;
+    } while (see==4);
        /*
      // Using temporary files (another nice use of tie)
      gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<
