@@ -6,6 +6,7 @@
 #include "readParameters.hpp"
 #include "GetPot.hpp"
 #include "solve.hpp"
+#include "thomas.hpp"
 //#include "gnuplot-iostream.hpp"// interface with gnuplot
 /*!
   @file main.cpp
@@ -76,17 +77,36 @@ int main(int argc, char** argv)
   
   // Solution vector
   std::vector<double> theta(M+1);
-  
-  // Gauss Siedel is initialised with a linear variation
-  // of T
 
 
-  
-  
+  /*
+  //Challenge 1.2 (solve the system with different norms)
+  //initialization for GS
   for(unsigned int m=0;m <= M;++m)
-     theta[m]=(1.-m*h)*(To-Te)/Te;
+   theta[m]=(1.-m*h)*(To-Te)/Te;
 
-	status=solve(M,act,toler,itermax,theta,norm); 
+  //solve the system with GS
+  status=solve(M,act,toler,itermax,theta,norm); 
+  */
+
+  //Challenge 1.3 (Thomas Algorithm)
+  //construction of the matrix
+  vector<double> a(M,2+h*h*act),b(M-1,-1.),c(M-1,-1.);
+  vector<double> alpha(M),beta(M-1),gamma(M-1);
+  vector<double> f(M); 
+  a[M-1]=1.;
+  f[0]=(To-Te)/Te;
+
+  //Factorization
+  alpha[0]=a[0];
+  for (unsigned int i=1; i<M; ++i){
+  	beta[i-1]=b[i-1]/alpha[i-1];
+  	alpha[i]=a[i]-beta[i-1]*c[i-1];
+  	gamma[i-1]=c[i-1];
+  }
+  //solution of the system
+  theta=thomas(alpha,beta,gamma,f);
+  theta[0]=(To-Te)/Te;
 
  // Analitic solution
 
