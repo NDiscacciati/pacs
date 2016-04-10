@@ -87,11 +87,13 @@ int main(int argc, char** argv)
 
   //solve the system with GS
   status=solve(M,act,toler,itermax,theta,norm); 
+  //end of part 1.2
   */
 
   //Challenge 1.3 (Thomas Algorithm)
   //construction of the matrix
   vector<double> a(M,2+h*h*act),b(M-1,-1.),c(M-1,-1.);
+  //vector<double> a(M,2+h*h*act*2/3),b(M-1,-1.+act*h*h/6),c(M-1,-1.+act*h*h/6);
   vector<double> alpha(M),beta(M-1),gamma(M-1);
   vector<double> f(M); 
   a[M-1]=1.;
@@ -107,15 +109,13 @@ int main(int argc, char** argv)
   //solution of the system
   theta=thomas(alpha,beta,gamma,f);
   theta[0]=(To-Te)/Te;
+  //end of part 1.3
 
  // Analitic solution
 
     vector<double> thetaa(M+1);
      for(int m=0;m <= M;m++)
        thetaa[m]=Te+(To-Te)*cosh(sqrt(act)*(1-m*h))/cosh(sqrt(act));
-
-     // writing results with format
-     // x_i u_h(x_i) u(x_i) and lauch gnuplot 
 
      //Gnuplot gp;
      //std::vector<double> coor(M+1);
@@ -132,10 +132,7 @@ int main(int argc, char** argv)
       ostream &f = (mysee%2==1 ? file : cout);
      for(int m = 0; m<= M; m++)
        {
-	 // \t writes a tab 
-         f<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;
-	 // An example of use of tie and tuples!
-         
+         f<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;       
 	 //std::tie(coor[m],sol[m],exact[m])=
 	   //std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
        }
