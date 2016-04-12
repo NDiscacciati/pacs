@@ -7,6 +7,7 @@
 #include "GetPot.hpp"
 #include "solve.hpp"
 #include "thomas.hpp"
+#include "time.hpp"
 //#include "gnuplot-iostream.hpp"// interface with gnuplot
 /*!
   @file main.cpp
@@ -80,7 +81,7 @@ int main(int argc, char** argv)
   std::vector<double> theta(M+1);
 
 
-  
+  /*
   //Challenge 1.2 (solve the system with different norms)
   //initialization for GS
   for(unsigned int m=0;m <= M;++m)
@@ -89,17 +90,16 @@ int main(int argc, char** argv)
   //solve the system with GS
   status=solve(M,act,toler,itermax,theta,norm); 
   //end of part 1.2
-  
+  */
 
   /*
-  //Challenge 1.3 (Thomas Algorithm)
+  //Challenge 1.3 (construction of the matrix, Thomas Algorithm)
   //construction of the matrix
   vector<double> a(M,2+h*h*act),b(M-1,-1.),c(M-1,-1.);
-  //vector<double> a(M,2+h*h*act*2/3),b(M-1,-1.+act*h*h/6),c(M-1,-1.+act*h*h/6);
   vector<double> alpha(M),beta(M-1),gamma(M-1);
-  vector<double> f(M); 
-  a[M-1]=1.;
-  f[0]=(To-Te)/Te;
+  vector<double> f(M,0.); 
+  a[M-1]=1.; //modification of the last diagonal term
+  f[0]=(To-Te)/Te; //Dirichlet condition
 
   //Factorization
   alpha[0]=a[0];
@@ -108,11 +108,22 @@ int main(int argc, char** argv)
   	alpha[i]=a[i]-beta[i-1]*c[i-1];
   	gamma[i-1]=c[i-1];
   }
-  //solution of the system
+  //solution of the system (adding Dirichlet condition)
   theta=thomas(alpha,beta,gamma,f);
-  theta[0]=(To-Te)/Te;
+  auto it=theta.begin();
+  theta.insert(theta.begin(),(To-Te)/Te);
   //end of part 1.3
   */
+
+  
+  //Challenge 1.3 (additional, time dependent problem)
+  //I assume the initial condition is constant temperature equal to Dirichlet condition
+  double initial=(To-Te)/Te;
+  double dt=0.1,T=5; 
+  theta=time(dt,T,M,act,initial);
+  //theta[0]=(To-Te)/Te; //Dirichlet condition
+  //end of part 1.3 additional
+  
 
  // Analitic solution
 
