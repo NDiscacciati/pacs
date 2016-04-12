@@ -34,6 +34,8 @@ struct parameters
   double dt;
   //! Final time
   double T;
+  //! Type of the challenge
+  int chall;
   //! Constructor takes default values
   parameters():
     itermax(1000000),
@@ -50,7 +52,8 @@ struct parameters
     see(1),
     norm(0),
     dt(0.1),
-    T(5)
+    T(5),
+    chall(1)
   {}
 };
 //! Prints parameters
