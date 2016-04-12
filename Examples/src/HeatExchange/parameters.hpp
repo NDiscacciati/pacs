@@ -44,7 +44,7 @@ struct parameters
     M(100),
     name("results.dat"),
     see(1),
-    norm(1)
+    norm(0)
   {}
 };
 //! Prints parameters

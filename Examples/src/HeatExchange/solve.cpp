@@ -5,38 +5,39 @@ int solve(const int M, const double act, const double toler, const int itermax, 
 	using namespace std;
   const auto h=1./M;
 
-  int iter=0, status=0,aux=(norm==1 ? 0 : 1);
-  double diff=0.,xnew, epsilon;
+  int iter=0, status=0;
+  double xnew, epsilon;
+  vector<double> diff(M+1,0.);
      do
-       { epsilon=0.;
+     { epsilon=0.;
 
-     //First row
-	   xnew  = (theta[0]+theta[2])/(2.+h*h*act);
-	   epsilon+=h/3*(xnew-theta[1])*(xnew-theta[1])+aux/h*((xnew-theta[1])*(xnew-theta[1]));
-	   diff= xnew-theta[1];
-	   theta[1] = xnew;
+	 //Compute the solution
+	 for (int m=1; m<M; m++){
+	 	xnew = (theta[m-1]+theta[m+1])/(2.+h*h*act);
+	 	diff[m]=xnew-theta[m];
+	 	theta[m]=xnew;
+	 }
+	 xnew=theta[M-1];
+	 diff[M]=xnew-theta[M];
+	 theta[M]=xnew;
 
-	 //Central elements
-         for(int m=2;m < M;m++)
-         {   
-	   xnew  = (theta[m-1]+theta[m+1])/(2.+h*h*act);
-	   epsilon += h/3*(diff*diff+(xnew-theta[m])*(xnew-theta[m])+diff*(xnew-theta[m]))
-	   			+aux/h*((xnew-theta[m]-diff)*(xnew-theta[m]-diff));
-	   diff=xnew-theta[m];
-	   theta[m] = xnew;
-         }
+	 //Compute the L2 norm
+	 epsilon+=h/3*(diff[1]*diff[1]);
+	 for (int m=2; m<M+1; m++)
+	 	epsilon+=h/3*(diff[m-1]*diff[m-1]+diff[m]*diff[m]+diff[m-1]*diff[m]);
 
-	 //Last row
-	 xnew = theta[M-1]; 
-	 epsilon += h/3*(diff*diff+(xnew-theta[M])*(xnew-theta[M])+diff*(xnew-theta[M]))
-	 			+aux/h*((xnew-theta[M]-diff)*(xnew-theta[M]-diff));
-	 theta[M]=  xnew; 
+	 //Compute the H1 norm, if necessary
+	 if (norm==1){
+	 	epsilon+=1/h*(diff[1]*diff[1]);
+	 	for (int m=2; m<M+1; m++)
+	 		epsilon+=1/h*(diff[m]-diff[m-1])*(diff[m]-diff[m-1]);
+	 }
 
 	 iter++;     
        }while((sqrt(epsilon) > toler) && (iter < itermax) );
 
 
-    cout<<"The final "<<(norm==1 ? "L2": "H1")<<" norm is "<<sqrt(epsilon)<<endl;
+    cout<<"The final "<<(norm==0 ? "L2": "H1")<<" norm is "<<sqrt(epsilon)<<endl;
     if(iter<itermax)
       cout << "M="<<M<<"  Convergence in "<<iter<<" iterations"<<endl;
     else

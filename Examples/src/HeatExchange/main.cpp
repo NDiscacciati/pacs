@@ -80,7 +80,7 @@ int main(int argc, char** argv)
   std::vector<double> theta(M+1);
 
 
-  /*
+  
   //Challenge 1.2 (solve the system with different norms)
   //initialization for GS
   for(unsigned int m=0;m <= M;++m)
@@ -89,8 +89,9 @@ int main(int argc, char** argv)
   //solve the system with GS
   status=solve(M,act,toler,itermax,theta,norm); 
   //end of part 1.2
-  */
+  
 
+  /*
   //Challenge 1.3 (Thomas Algorithm)
   //construction of the matrix
   vector<double> a(M,2+h*h*act),b(M-1,-1.),c(M-1,-1.);
@@ -111,6 +112,7 @@ int main(int argc, char** argv)
   theta=thomas(alpha,beta,gamma,f);
   theta[0]=(To-Te)/Te;
   //end of part 1.3
+  */
 
  // Analitic solution
 
