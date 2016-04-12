@@ -19,17 +19,17 @@ k=0.164
 # Convection coefficient
 hc=200.0e-6
 # Number of elements
-M=101
+M=51
 # Name of output file
-name=result.dat
+name=result2.dat
 # See the result on screen or file (1=file,2=screen,3=both)
 see=3
 # Choose the stopping criterion for norm (0=L2, 1=H1)
-norm=0
+norm=1
 # Choose the time discretization
 dt=0.1
 # Choose final time
 T=5
 # Choose the type of the challenge you want to execute
 # 1=challenge 1.2 (different norms), 2=challenge 1.3 (Thomas), 3=challenge 1.3add (transient)
-chall=3
+chall=1

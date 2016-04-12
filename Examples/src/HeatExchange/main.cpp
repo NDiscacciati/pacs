@@ -114,7 +114,6 @@ if (chall==2) {
   theta=thomas(alpha,beta,gamma,f);
   //the size is correct, I need only to add the Dirichlet condition
   theta.insert(theta.begin(),(To-Te)/Te);
-  cout<<theta.size()<<endl<<endl;
 }
 
 if (chall==3) {
