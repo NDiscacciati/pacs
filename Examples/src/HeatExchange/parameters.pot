@@ -24,5 +24,9 @@ M=11
 name=result.dat
 # See the result on screen or file (1=file,2=screen,3=both)
 see=3
-# Choose the stopping criterion for norm(0=L2, 1=H1)
+# Choose the stopping criterion for norm (0=L2, 1=H1)
 norm=1
+# Choose the time discretization
+dt=0.1
+# Choose final time
+T=5

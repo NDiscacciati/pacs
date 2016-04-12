@@ -67,9 +67,10 @@ int main(int argc, char** argv)
   const auto& hc=param.hc; // Convection coefficient
   const auto& M=param.M; // Number of grid elements
   const auto& name=param.name; //Name of output file
-  //const int& see=param.see;
   int see=const_cast<int&>(param.see); //See the results on screen or file
   const int& norm=param.norm; //Norm parameter
+  const double& dt=param.dt; //Delta t
+  const double& T=param.T; //Final time
   
   //! Precomputed coefficient for adimensional form of equation
   const auto act=2.*(a1+a2)*hc*L*L/(k*a1*a2);
@@ -79,6 +80,7 @@ int main(int argc, char** argv)
   
   // Solution vector
   std::vector<double> theta(M+1);
+  cout<<theta.size()<<endl<<endl;
 
 
   /*
@@ -110,20 +112,19 @@ int main(int argc, char** argv)
   }
   //solution of the system (adding Dirichlet condition)
   theta=thomas(alpha,beta,gamma,f);
-  auto it=theta.begin();
+  //the size is correct, I need only to add the Dirichlet condition
   theta.insert(theta.begin(),(To-Te)/Te);
+  cout<<theta.size()<<endl<<endl;
   //end of part 1.3
   */
 
-  
-  //Challenge 1.3 (additional, time dependent problem)
+  /*
+  //Challenge 1.3 additional (time dependent problem)
   //I assume the initial condition is constant temperature equal to Dirichlet condition
-  double initial=(To-Te)/Te;
-  double dt=0.1,T=5; 
-  theta=time(dt,T,M,act,initial);
+  theta=time(dt,T,M,act,(To-Te)/Te);
   //theta[0]=(To-Te)/Te; //Dirichlet condition
   //end of part 1.3 additional
-  
+  */
 
  // Analitic solution
 
@@ -141,21 +142,21 @@ int main(int argc, char** argv)
     if (see%2==1) {file.open(name);  cout<<"Result file: "<<name<<endl;}
     do{
       ostream &ff = (see%2==1 ? file : cout);
-    	//ff = *(mysee%2==1 ? file : cout);
      for(int m = 0; m<= M; m++)
        {
          ff<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;       
-	 	//std::tie(coor[m],sol[m],exact[m])=
-	   //std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
        }
        see++;
     } while (see==4);
+
+	 	//std::tie(coor[m],sol[m],exact[m])=
+	   //std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
        /*
      // Using temporary files (another nice use of tie)
      gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<
        "w lp title 'uh',"<< gp.file1d(std::tie(coor,exact))<<
        "w l title 'uex'"<<std::endl;
        */
-     if (see%2==1) file.close();
+     if (see%2==0) file.close();
      return status;
 }

@@ -30,6 +30,10 @@ struct parameters
   int see;
   //! Choice for stopping criterion
   int norm;
+  //! Delta t
+  double dt;
+  //! Final time
+  double T;
   //! Constructor takes default values
   parameters():
     itermax(1000000),
@@ -44,7 +48,9 @@ struct parameters
     M(100),
     name("results.dat"),
     see(1),
-    norm(0)
+    norm(0),
+    dt(0.1),
+    T(5)
   {}
 };
 //! Prints parameters
