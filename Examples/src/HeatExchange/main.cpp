@@ -83,7 +83,7 @@ int main(int argc, char** argv)
   cout<<theta.size()<<endl<<endl;
 
 
-  /*
+  
   //Challenge 1.2 (solve the system with different norms)
   //initialization for GS
   for(unsigned int m=0;m <= M;++m)
@@ -92,7 +92,7 @@ int main(int argc, char** argv)
   //solve the system with GS
   status=solve(M,act,toler,itermax,theta,norm); 
   //end of part 1.2
-  */
+  
 
   /*
   //Challenge 1.3 (construction of the matrix, Thomas Algorithm)
@@ -132,10 +132,7 @@ int main(int argc, char** argv)
      for(int m=0;m <= M;m++)
        thetaa[m]=Te+(To-Te)*cosh(sqrt(act)*(1-m*h))/cosh(sqrt(act));
 
-     //Gnuplot gp;
-     //std::vector<double> coor(M+1);
-     //std::vector<double> sol(M+1);
-     //std::vector<double> exact(M+1);
+
 
     cout<<"You have requested to print the results in mode "<<see<<endl;
     ofstream file; 
@@ -149,14 +146,23 @@ int main(int argc, char** argv)
        see++;
     } while (see==4);
 
-	 	//std::tie(coor[m],sol[m],exact[m])=
-	   //std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
-       /*
-     // Using temporary files (another nice use of tie)
-     gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<
+    if (see%2==0) file.close();
+
+/* 
+	//Part dealing with gnuplot
+     Gnuplot gp;
+     std::vector<double> coor(M+1);
+     std::vector<double> sol(M+1);
+     std::vector<double> exact(M+1);
+
+    for (int m=0; m<=M; m++){
+    	std::tie(coor[m],sol[m],exact[m])=
+	    std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
+    }
+    gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<
        "w lp title 'uh',"<< gp.file1d(std::tie(coor,exact))<<
        "w l title 'uex'"<<std::endl;
-       */
-     if (see%2==0) file.close();
+*/
+
      return status;
 }
