@@ -24,7 +24,8 @@ int solve(const int M, const double act, const double toler, const int itermax, 
 	 //Compute the L2 norm
 	 epsilon+=h/3*(diff[1]*diff[1]);
 	 for (int m=2; m<M+1; m++)
-	 	epsilon+=h/3*(diff[m-1]*diff[m-1]+diff[m]*diff[m]+diff[m-1]*diff[m]);
+	 	//epsilon+=h/3*(diff[m-1]*diff[m-1]+diff[m]*diff[m]+diff[m-1]*diff[m]);
+	 	epsilon+=h/6*(diff[m-1]*diff[m-1]+diff[m]*diff[m]+(diff[m-1]+diff[m])*(diff[m-1]+diff[m]));
 
 	 //Compute the H1 norm, if necessary
 	 if (norm==1){
