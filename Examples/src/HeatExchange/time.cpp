@@ -9,7 +9,7 @@ std::vector<double> time(double const dt, double const T, int const M, double co
 	b[M-1]=-1.; a[M]=1.; a[0]=1.; c[0]=0.; //modification of terms
 	vector<double> alpha(M+1,0.),beta(M,0.),gamma(M,0.);
 	vector<double> rhs(M+1);
-	vector<double> theta(M+1,init+1.);
+	vector<double> theta(M+1,init);
 	unsigned int steps=round(T/dt);
 
 cout<<"dt= "<<dt<<" , T= "<<T<<" , steps= "<<steps<<endl;
