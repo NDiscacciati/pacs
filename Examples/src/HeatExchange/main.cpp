@@ -82,8 +82,8 @@ int main(int argc, char** argv)
   // Solution vector
   std::vector<double> theta(M+1);
 
-
-if (chall==1) {
+switch (chall){
+case(1): {
   //Challenge 1.2 (solve the system with different norms)
   //initialization for GS
   for(int m=0;m <= M;++m)
@@ -92,9 +92,10 @@ if (chall==1) {
   //solve the system with GS
   status=solve(M,act,toler,itermax,theta,norm); 
   //end of part 1.2
+break;
 }
 
-if (chall==2) {
+case(2): { 
   //Challenge 1.3 (construction of the matrix, Thomas Algorithm)
   //construction of the matrix
   vector<double> a(M,2+h*h*act),b(M-1,-1.),c(M-1,-1.);
@@ -114,14 +115,19 @@ if (chall==2) {
   theta=thomas(alpha,beta,gamma,f);
   //the size is correct, I need only to add the Dirichlet condition
   theta.insert(theta.begin(),(To-Te)/Te);
+break;
 }
 
-if (chall==3) {
+
+case(3): {
   //Challenge 1.3 additional (time dependent problem)
   //I assume the initial condition is constant temperature equal to Dirichlet condition
   theta=time(dt,T,M,act,(To-Te)/Te);
   //theta[0]=(To-Te)/Te; //Dirichlet condition
   //end of part 1.3 additional
+break;
+}
+
 }
 
  // Analitic solution

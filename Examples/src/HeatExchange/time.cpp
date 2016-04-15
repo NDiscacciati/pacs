@@ -34,8 +34,8 @@ for (unsigned int t=1; t<steps+1; ++t){
 	theta[0]=init; //Dirichlet condition (optional: comes from the solver, but I can have approximation errors)
 
 	//Print on screen solution at each step
-	//for (auto m: theta) cout<<m<<"\t";
-	//cout<<endl;
+	for (auto m: theta) cout<<m<<"\t";
+	cout<<endl;
 }
 
 return theta;
