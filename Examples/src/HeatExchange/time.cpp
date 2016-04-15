@@ -8,7 +8,7 @@ std::vector<double> time(double const dt, double const T, int const M, double co
 	vector<double> a(M+1,1+dt/(h*h)*(2+h*h*act)),b(M,-dt/(h*h)*1.),c(M,-dt/(h*h)*1.);
 	b[M-1]=-1.; a[M]=1.; a[0]=1.; c[0]=0.; //modification of terms
 	vector<double> alpha(M+1,0.),beta(M,0.),gamma(M,0.);
-	vector<double> rhs(M+1);
+	//vector<double> rhs(M+1);
 	vector<double> theta(M+1,init);
 	unsigned int steps=round(T/dt);
 
@@ -34,8 +34,8 @@ for (unsigned int t=1; t<steps+1; ++t){
 	theta[0]=init; //Dirichlet condition (optional: comes from the solver, but I can have approximation errors)
 
 	//Print on screen solution at each step
-	for (auto m: theta) cout<<m<<"\t";
-	cout<<endl;
+	//for (auto m: theta) cout<<m<<"\t";
+	//cout<<endl;
 }
 
 return theta;

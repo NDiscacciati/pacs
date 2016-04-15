@@ -67,7 +67,8 @@ int main(int argc, char** argv)
   const auto& hc=param.hc; // Convection coefficient
   const auto& M=param.M; // Number of grid elements
   const auto& name=param.name; //Name of output file
-  int see=const_cast<int&>(param.see); //See the results on screen or file
+  //int see=const_cast<int&>(param.see); //See the results on screen or file
+  const int& see=(param.see); //See the results on screen or file
   const int& norm=param.norm; //Norm parameter
   const double& dt=param.dt; //Delta t
   const double& T=param.T; //Final time
@@ -136,6 +137,10 @@ break;
        thetaa[m]=Te+(To-Te)*cosh(sqrt(act)*(1-m*h))/cosh(sqrt(act));
 
 // Output
+   //In this way i redirect the output, but in my opinion in this case is too much
+   //if I wanted to use it I should make the variable see as non-const
+   //int see=const_cast<int&>(param.see); at the beginning of the program
+   /*
     cout<<"You have requested to print the results in mode "<<see<<endl;
     ofstream file; 
     if (see%2==1) {file.open(name);  cout<<"Result file: "<<name<<endl;}
@@ -149,9 +154,22 @@ break;
     } while (see==4);
 
     if (see%2==0) file.close();
+    */
+if (see%2==1) {
+	ofstream file(name); cout<<"Result file: "<<name<<endl;
+	for(int m = 0; m<= M; m++)
+		file<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;
+	file.close();
+}
+if (see>=2) {
+	for(int m = 0; m<= M; m++)
+		cout<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;
+}
+
 
 /* 
-	//Part dealing with gnuplot
+	//Part dealing with gnuplot 
+	//It should be printed iff is requested the output on terminal
      Gnuplot gp;
      std::vector<double> coor(M+1);
      std::vector<double> sol(M+1);

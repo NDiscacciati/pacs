@@ -23,7 +23,7 @@ M=11
 # Name of output file
 name=result.dat
 # See the result on screen or file (1=file,2=screen,3=both)
-see=2
+see=3
 # Choose the stopping criterion for norm (0=L2, 1=H1)
 norm=0
 # Choose the time discretization
