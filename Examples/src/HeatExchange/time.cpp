@@ -35,7 +35,7 @@ for (unsigned int t=1; t<steps+1; ++t){
 
 	//Print on screen solution at each step
 	for (auto m: theta) cout<<m<<"\t";
-	//cout<<endl<<endl;
+	cout<<endl<<endl;
 }
 
 return theta;

@@ -5,16 +5,16 @@ EXECUTION OF THE DIFFERENT CHALLENGES
 To execute different challenges you need to change a parameter in the input file (default: parameters.pot), in this way: 1=challenge 1.2 (different norms), 2=challenge 1.3 (Thomas), 3=challenge 1.3add (transient)
 
 COMMENTS
-Challenge 1.2
+Challenge 1.2 (mainly written in solve.cpp)
 Both the norms are computed via a quadrature formula. In particular, L2 norm uses Simpson (the constant 4 of the midpoint can be simplified), while for the H1 seminorm I used the rectangulus formula, since it's (locally) constant.
-Running the script run.sh, the program produces the output for the same problem with different stopping criteria. In particular, using the H1 norm, the program requires more iteration. Of course it is correct, because the L2 norm is less or equal than the H1 norm.
+Running the script run.sh, the program produces the output for the same problem with different stopping criteria. In particular, using the H1 norm, the program requires more iterations. Of course it is correct, because the L2 norm is less or equal than the H1 norm.
 
-Challenge 1.3
+Challenge 1.3 (mainly written in thomas.cpp)
 I built directly the matrix and solved via Thomas algorithm, after the factorization (which is made in main.cpp).
 
-Challenge 1.3 additional
+Challenge 1.3 additional (mainly written in time.cpp)
 I modified the matrix adding one line at the beginning in order to avoid problems with Dirichlet condition. I modified also the last line in order to sathisfy Neumann's one (with FE is not strictly necessary, but I preferred to have a constant solution in the last element).
 I assumed the initial condition as a constant, just to simplify the program, even though non-constant conditions can be (almost) easily implemented.
-For the same reason, I save and print only the solution at the final step.
+For the same reason, I print on the screen the solution at every iteration but I save only the last one as in the previous parts. I could have also passed to the function the name of the output file.
 
 Niccolò Discacciati

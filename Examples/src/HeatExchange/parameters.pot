@@ -21,9 +21,9 @@ hc=200.0e-6
 # Number of elements
 M=11
 # Name of output file
-name=result.dat
+name=prova.dat
 # See the result on screen or file (1=file,2=screen,3=both)
-see=3
+see=2
 # Choose the stopping criterion for norm (0=L2, 1=H1)
 norm=0
 # Choose the time discretization
@@ -32,4 +32,4 @@ dt=0.1
 T=5
 # Choose the type of the challenge you want to execute
 # 1=challenge 1.2 (different norms), 2=challenge 1.3 (Thomas), 3=challenge 1.3add (transient)
-chall=1
+chall=3
