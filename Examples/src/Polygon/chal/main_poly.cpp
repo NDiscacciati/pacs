@@ -6,6 +6,7 @@
 int main()
 {
   using namespace Geometry;
+  using namespace std;
 /*
   //! five vertices
   Vertices v(5);
@@ -37,8 +38,26 @@ int main()
   r_ab.showMe();
   std::cout<<"Area: "<<r_ab.area()<<std::endl;
 */
+  //check that the default constructor works
+  Grid F;
+  cout<<"Numero di poligoni nella griglia: "<<F.grid_size()<<endl;
+  cout<<"Area totale: "<<F.area()<<endl<<endl;
+
+  //construction of a grid reading from the given file
   std::ifstream file("mesh.dat");
-  Grid P(file);
+  Grid G(file);
+  cout<<"Numero di poligoni nella griglia: "<<G.grid_size()<<endl;
+  cout<<"Area totale: "<<G.area()<<endl<<endl;
+
+  //check that the copy constructor works
+  Grid H(G);
+  cout<<"Numero di poligoni nella griglia: "<<H.grid_size()<<endl;
+  cout<<"Area totale: "<<H.area()<<endl<<endl;
+
+  //check that the assignment operator works
+  F=H;
+  cout<<"Numero di poligoni nella griglia: "<<F.grid_size()<<endl;
+  cout<<"Area totale: "<<F.area()<<endl<<endl;
 }
   
 

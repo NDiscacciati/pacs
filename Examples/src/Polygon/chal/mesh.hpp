@@ -20,9 +20,15 @@ class Grid
     Grid & operator= (Grid & )= default;
 
     Grid (ifstream & file);
+    double area();
+    unsigned int grid_size(){return abspol.size();};
+
+
+
   private:
     std::vector<Point2D> vect;
     std::vector<std::shared_ptr<AbstractPolygon> > abspol;
+    //std::vector<Edge> AllEdges,Boundary;
   };
 
   #endif

@@ -30,9 +30,9 @@ for (unsigned int i=0; i<Nvert; i++){
 }
 
 //stampa
-for (auto i = vect.begin(); i != vect.end(); i++) cout<<i->x()<<" "<<i->y()<<endl;
+//for (auto i = vect.begin(); i != vect.end(); i++) cout<<i->x()<<" "<<i->y()<<endl;
 
-abspol.resize(Npoly);
+//abspol.resize(Npoly);
 int tipo;
 
 //leggo le altre righe
@@ -47,10 +47,20 @@ for (unsigned int i=0; i<Npoly; i++){
 		vvv.push_back(vect[stoi(aux)]);
 	}
 
-if (tipo==0) {Triangle t(vvv); t.showMe(); abspol.push_back(make_shared<Triangle> (t));}
-if (tipo==1) {Square s(vvv); s.showMe(); abspol.push_back(make_shared<Square> (s));}
-if (tipo>=2) {Polygon p(vvv); p.showMe(); abspol.push_back(make_shared<Polygon> (p));}
-//abspol.push_back(make_shared(t))
+if (tipo==0) {Triangle t(vvv); abspol.push_back(make_shared<Triangle> (t));}
+if (tipo==1) {Square s(vvv); abspol.push_back(make_shared<Square> (s));}
+if (tipo>=2) {Polygon p(vvv); abspol.push_back(make_shared<Polygon> (p));}
 }
 
+}
+
+
+double Grid::area(){
+	unsigned int Npoly=abspol.size();
+	double area{0.0};
+	for (unsigned int i=0; i<Npoly; i++){
+		//cout<<"Area del poligono "<<i<<": "<<abspol[i]->area()<<endl;
+		area+=abspol[i]->area();
+	}
+return area;
 }
