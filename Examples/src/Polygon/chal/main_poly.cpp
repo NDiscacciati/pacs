@@ -1,5 +1,6 @@
 #include "Polygon.hpp"
-#include "mesh.hpp"
+#include "grid.hpp"
+#include "edge.hpp"
 #include <iostream>
 #include <fstream>
 //! Main program
@@ -58,6 +59,8 @@ int main()
   F=H;
   cout<<"Numero di poligoni nella griglia: "<<F.grid_size()<<endl;
   cout<<"Area totale: "<<F.area()<<endl<<endl;
+
+  F.printedges();
 }
   
 
