@@ -21,12 +21,12 @@ class Grid
     Grid ()=default;
     Grid (const Grid & )=default;
     Grid & operator= (const Grid & )= default;
-
     Grid (ifstream & file);
+
     double area();
     unsigned int grid_size(){return abspol.size();};
     void printedges();
-
+    void printedgesIndex(ofstream & ost1, ofstream & ost2, ofstream & ost3);
 
   private:
     std::vector<Point2D> vect;

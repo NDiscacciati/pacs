@@ -60,7 +60,14 @@ int main()
   cout<<"Numero di poligoni nella griglia: "<<F.grid_size()<<endl;
   cout<<"Area totale: "<<F.area()<<endl<<endl;
 
+  //print the edges on the screen, just for simplicity
   F.printedges();
+
+  //print the indexes of the edges in 3 separate files
+  ofstream out1("AllEdges.dat");
+  ofstream out2("BoundaryEdges.dat");
+  ofstream out3("InternalEdges.dat");
+  F.printedgesIndex(out1,out2,out3);
 }
   
 

@@ -7,6 +7,7 @@
 #include <utility>
 #include <memory>
 #include <fstream>
+#include <algorithm>
 #include <sstream>
 #include <iterator>
 
@@ -28,16 +29,15 @@ public:
     void print(){cout<<a<<" "<<b<<endl;};
     friend bool operator <(Edge const &f, Edge const &s)
     {
-    	unsigned int m1,m2,M1,M2;
-    	m1=min(f.a,f.b); m2=min(s.a,s.b);
-    	M1=max(f.a,f.b); M2=max(s.a,s.b);
-    	if (m1==m2) return M1<M2;
-    	return m1<m2;
+    	auto mm=minmax(f.a,f.b);
+    	auto mm2=minmax(s.a,s.b);
+    	if (mm.first==mm2.first) return mm.second<mm2.second;
+    	return mm.first<mm2.first;
     };
-    //friend ostream & operator << (ofstream & ost, Edge const & e){
-    //	ost<<e.a<<" "<<e.b<<endl;
-    //	return ost;
-    //};
+    friend ostream & operator << (ostream & ost, Edge const &e){
+    	ost<<e.a<<" "<<e.b<<endl;
+    	return ost;
+    };
 
 
 
@@ -45,6 +45,7 @@ private:
 	unsigned int a;
 	unsigned int b;
 };
+
 
 
 #endif
