@@ -5,7 +5,7 @@ using namespace Geometry;
 using namespace std;
 
 Grid::Grid(ifstream & file){
-string str,aux,aux1,aux2;
+string str,aux;
 unsigned int Npoly=0,Nvert=0,tipo=0;
 set<Edge> insieme, interni;
 Edge e;
