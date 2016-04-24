@@ -11,7 +11,6 @@ set<Edge> insieme, interni;
 Edge e;
 double i1,i2;
 vector<unsigned int> lati;
-vector<Point2D> vvv;
 pair<set<Edge>::iterator,bool> check;
 
 //read the first line
@@ -43,7 +42,7 @@ for (unsigned int i=0; i<Npoly; i++){
 	getline(ss,aux,' ');
 	getline(ss,aux,' ');
 	tipo=stoi(aux);
-	vvv.clear(); lati.clear();
+	lati.clear();
 	while (getline(ss,aux,' ')){
 		//vvv.emplace_back(vect[stoi(aux)]);
 		lati.emplace_back(stoi(aux));

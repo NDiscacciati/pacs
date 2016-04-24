@@ -49,6 +49,7 @@ int main()
   Grid G(file);
   cout<<"Numero di poligoni nella griglia: "<<G.grid_size()<<endl;
   cout<<"Area totale: "<<G.area()<<endl<<endl;
+  file.close();
 
   //check that the copy constructor works
   Grid H(G);

@@ -22,6 +22,13 @@ namespace Geometry{
   {
     if (check) this->checkConvexity();
   }
+/*
+  void AbstractPolygon::printCoord() const {
+  	if (pointer==nullptr) {std::cout<<"Nullo"; return;}
+	std::cout<<"Coordinate dei vertici:"<<std::endl;
+	for(auto i : *pointer) std::cout<<i.x()<<" "<<i.y()<<std::endl; 
+	}
+*/
   
   void AbstractPolygon::showMe(std::ostream & out)const
   {
@@ -133,29 +140,27 @@ namespace Geometry{
     if(v.size() != 4){
       throw std::runtime_error(" A square must be created giving four vertices");
     }
-    /*
+
     // Check if it is a square!
-    double l1=distance(vertexes[1],vertexes[0]);
-    double l2=distance(vertexes[2],vertexes[3]);
+    double l1=distance((*pointer)[v[1]],(*pointer)[v[0]]);
+    double l2=distance((*pointer)[v[2]],(*pointer)[v[3]]);
     auto ratio=std::abs(this->area())/(l1*l2);
     if (std::abs(ratio - 1.0)>10*std::numeric_limits<double>::epsilon())
       throw std::runtime_error("Vertexes do not define a square");
-      */
+     
   }
 /*
-  Square::Square(Point2D origin, double length, double angle){
+  Square::Square(unsigned int origin, double length, double angle){
     this->isconvex=true;
     this->vertexes.reserve(4);
-    vertexes.push_back(origin);
+    position.push_back(origin);
     double c(std::cos(angle));
     double s(std::sin(angle));
-    vertexes.push_back(Point2D(origin.x()+length*c,
-			       origin.y()+length*s));
-    vertexes.push_back(Point2D(origin.x()+length*(c-s),
-			       origin.y()+length*(c+s)));
-    vertexes.push_back(Point2D(origin.x()-length*s,
-			       origin.y()+length*c));
-  }*/
+    vertexes.push_back(Point2D(origin.x()+length*c,origin.y()+length*s));
+    vertexes.push_back(Point2D(origin.x()+length*(c-s),origin.y()+length*(c+s)));
+    vertexes.push_back(Point2D(origin.x()-length*s,origin.y()+length*c));
+  }
+*/
   
   double Square::area() const{
     if(this->size()==0) return 0.0;

@@ -52,7 +52,6 @@ namespace Geometry
 
   //! An alias
   using R2Vector=Point2D;
-  using PosVector=std::vector<unsigned int>;
 
   //! subtraction operator.
   /*!  
@@ -79,12 +78,14 @@ namespace Geometry
  
   //! Polygon vertices are just vectors of points.
   using Vertices=std::vector<Point2D>;
+  //! The vector that stores the position is a std::vector of unsigned int
+  using PosVector=std::vector<unsigned int>;
 
   //! Defines the common interface of polygons.
   class AbstractPolygon
   {
   public:
-    //! Constructor taking index of the vertexes
+    //! Constructor taking index of the vertexes and the vector containing the coordinates
     /*! 
       It checks convexity if check=true
      */
@@ -94,6 +95,8 @@ namespace Geometry
       It is up to the derived classes to fill the vertexex and other info correctly
     */
     AbstractPolygon()=default;
+     // Force the default constructor (just to be sure that the pointer is the nullptr)
+    //AbstractPolygon():position(),pointer(nullptr),isconvex(false){};
     //! Assignment
     AbstractPolygon & operator=(AbstractPolygon const&)=default;
     //! Copy constructor
@@ -116,7 +119,9 @@ namespace Geometry
     //! Is the polygon convex?
     bool isConvex() const {return isconvex;}
     //! Returns the index of the vertices (read only)
-    std::vector<unsigned int> const & theVertices()const {return position;}
+    PosVector const & theVertices()const {return position;}
+    //! Prints the coordinates of the verteces
+    //virtual void printCoord() const;
     //! Outputs some info on the polygon
     virtual void showMe(std::ostream & out=std::cout) const;
     //! The area of the polygon (with sign!).
@@ -128,7 +133,7 @@ namespace Geometry
   protected:
     //Vertices vertexes;
     PosVector position;
-    Vertices * pointer=nullptr;
+    Vertices * pointer;
     bool isconvex;
     //! Test convexity of the polygon
     void checkConvexity();
@@ -170,7 +175,8 @@ namespace Geometry
       /param length The length of the side.
       /param angle In radians, tells how the square is  rotated. 
      */
-    Square(Point2D origin, double length,double angle=0.0);
+    //Since we consider only points of a grid, this constructor is nonsense
+    //Square(unsigned int origin, double length,double angle=0.0);
     Square(Square const &)=default;
     Square(Square&&)=default;
     Square & operator=(const Square &)=default;

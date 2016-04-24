@@ -62,9 +62,10 @@ for (unsigned int i=0; i<Npoly; i++){
 
 	//build the vector of smart pointers
 	switch(tipo){
-		case(0): {Triangle t(vvv); abspol.emplace_back(make_shared<Triangle> (t));} break;
-		case(1): {Square s(vvv); abspol.emplace_back(make_shared<Square> (s));} break;
-		default: {Polygon p(vvv); abspol.emplace_back(make_shared<Polygon> (p));}
+		//case(0): {Triangle t(vvv); abspol.emplace_back(make_shared<Triangle> (t));} break;
+		case(0): {abspol.emplace_back(make_shared<Triangle> (Triangle(vvv)));} break;
+		case(1): {abspol.emplace_back(make_shared<Square> (Square(vvv)));} break;
+		default: {abspol.emplace_back(make_shared<Polygon> (Polygon(vvv)));}
 	}
 }
 
