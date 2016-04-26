@@ -1,0 +1,9 @@
+Comments to Challenge 2
+
+You may find my answer to the challenges in these folders:
+./chal for challenges 2.1 and 2.3
+./chal2 for challenges 2.2 and 2.3
+
+In both cases, use the Makefile in order to compile the programs. To run them, just type ./main_poly
+
+The files for Challenge 2.3 are: BoundaryEdges.dat, AllEdges.dat and InternalEdges.dat respectively.
