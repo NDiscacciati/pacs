@@ -1,5 +1,5 @@
 #include "rk45.hpp"
-#include<iostream>
+#include <iostream>
 #include <fstream>
 
 #include <cmath>
@@ -15,8 +15,11 @@ int main()
   double h_init=0.2;
   double errorDesired=1.e-7;
   int status;
-  auto result= 
-    rk45(fun,t0,T,y0,h_init,(T-t0)/4.,errorDesired,status,10000);
+  rk<double> tmp(fun,t0,T,y0,h_init,(T-t0)/4.,errorDesired,status,10000);
+  tmp.computeSolution();
+  auto result=tmp.getSolution();
+  //auto result= 
+    //rk45(fun,t0,T,y0,h_init,(T-t0)/4.,errorDesired,status,10000);
   ofstream file("result.dat");
   for (auto v : result)
     file<<v.first<<" "<<v.second<<std::endl;

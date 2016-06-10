@@ -3,6 +3,7 @@
 #include <algorithm> // for max
 namespace ODE
 {
+	/*
   // f(t,y)
   double rk45_step
   (
@@ -59,8 +60,9 @@ namespace ODE
     error = std::abs(y5 - y4);
     return y5;
   }
+  */
 
-
+/*
   std::vector<std::pair<double,double>> 
     rk45(std::function<double (double const &, double const &)> const & dy,
 	 double const & t0,
@@ -133,5 +135,6 @@ namespace ODE
       }
     return solution;
   }
+*/
 
 }// end namespace
