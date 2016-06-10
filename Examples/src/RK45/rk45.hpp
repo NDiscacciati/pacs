@@ -4,6 +4,8 @@
 #include <vector>
 #include <cmath>
 #include <stdexcept>
+#include <numeric>
+#include <iostream>
 namespace ODE
 {
 
@@ -26,19 +28,20 @@ private:
 	std::size_t maxSteps;
 	prec rk_step(prec const & y0, prec const & t0, prec const & h, prec & error);
 
+	std::vector<prec> b1,b2,c;
+	std::vector<prec> a;
+
 public:
 
-	rk<prec> (std::function<prec (prec const &, prec const &)> const & dy,prec t0,prec T,
-		prec y0,prec h_initial,prec h_max,prec final_error,int status,std::size_t maxSteps=MAX_STEPS):
+	rk<prec> (std::function<prec (prec const &, prec const &)> const & dy,prec const & t0,prec const & T,
+		prec const & y0,prec const & h_initial,prec const & h_max,prec const & final_error,int & status,std::size_t const & maxSteps=MAX_STEPS):
 		dy(dy), t0(t0), T(T), y0(y0), h_initial(h_initial), h_max(h_max), final_error(final_error), maxSteps(maxSteps)
 		{};
 	//rk45(dy): dy(dy) {};
 	std::vector<std::pair<prec,prec>> getSolution(){return solution;};
 	void computeSolution();
+	void setButcher45();
 };
-
-
-
 
 template<class prec>
 void rk<prec>::computeSolution(){ 
@@ -103,9 +106,28 @@ void rk<prec>::computeSolution(){
       }
 };
 
+
+template<class prec>
+void rk<prec>::setButcher45(){
+a.resize(15); b1.resize(6); b2.resize(6); c.resize(6);
+a[0]=1./4.; a[1]=3./32.; a[2]=9./32.; a[3]=1932./2197.; a[4]=-7200./2197.; a[5]=7296./2197.;
+a[6]=439./216.; a[7]=-8.; a[8]=3680./513.; a[9]=-845./4104.; 
+a[10]=-8./27.; a[11]=2.; a[12]=-3544./2565.; a[13]=1859./4104.; a[14]=-11./40;
+
+c[0]=0.; c[1]=a[0]; c[2]=a[1]+a[2]; c[3]=a[3]+a[4]+a[5]; c[4]=a[6]+a[7]+a[8]+a[9];
+c[5]=a[10]+a[11]+a[12]+a[13]+a[14];
+
+b1[0]=25./216.; b1[1]=0.; b1[2]=1408./2565.; b1[3]=2197./4104.; b1[4]=-1./5.; b1[5]=0.;
+b2[0]=16./135.; b2[1]=0.; b2[2]=6656./12825.; b2[3]=28561./56430.; b2[4]=-9./50.; b2[5]=2./55;
+};
+
+
+
+
 template<class prec>
 prec rk<prec>::rk_step(prec const & y0, prec const & t0, prec const & h, prec & error)
   {
+  	/*
     // Butcher array (row 1 is trivial)
     constexpr double a21 = 1./4.;
     constexpr double c2  = a21;
@@ -140,19 +162,40 @@ prec rk<prec>::rk_step(prec const & y0, prec const & t0, prec const & h, prec & 
     constexpr double b55 =-9./50.;
     constexpr double b56 = 2./55.;
 
+
     auto f=dy;
     
-    double F1 = h * f(t0, y0);
-    double F2 = h * f(t0 + c2 * h, y0 + a21 * F1);
-    double F3 = h * f(t0 + c3 * h, y0 + a31 * F1 + a32 * F2);
-    double F4 = h * f(t0 + c4 * h, y0 + a41 * F1 + a42 * F2 + a43 * F3);
-    double F5 = h * f(t0 + c5 * h, y0 + a51 * F1 + a52 * F2 + a53 * F3 + a54 * F4 );
-    double F6 = h * f(t0 + c6 * h, y0 + a61 * F1 + a62 * F2 + a63 * F3 + a64 * F4 + a65 * F5);
+    prec F1 = h * f(t0, y0);
+    prec F2 = h * f(t0 + c2 * h, y0 + a21 * F1);
+    prec F3 = h * f(t0 + c3 * h, y0 + a31 * F1 + a32 * F2);
+    prec F4 = h * f(t0 + c4 * h, y0 + a41 * F1 + a42 * F2 + a43 * F3);
+    prec F5 = h * f(t0 + c5 * h, y0 + a51 * F1 + a52 * F2 + a53 * F3 + a54 * F4 );
+    prec F6 = h * f(t0 + c6 * h, y0 + a61 * F1 + a62 * F2 + a63 * F3 + a64 * F4 + a65 * F5);
 
-    double y4 =   y0 + b41 * F1 + b43 * F3 + b44 * F4 + b45 * F5;
-    double y5 =   y0 + b51 * F1 + b53 * F3 + b54 * F4 + b55 * F5 + b56 * F6;
+    prec y4 =   y0 + b41 * F1 + b43 * F3 + b44 * F4 + b45 * F5;
+    prec y5 =   y0 + b51 * F1 + b53 * F3 + b54 * F4 + b55 * F5 + b56 * F6;
     error = std::abs(y5 - y4);
     return y5;
+    */
+    
+    auto f=dy;
+    setButcher45();
+
+    std::vector<prec> K(b1.size());
+    K[0]=f(t0,y0);
+
+    auto it1=a.begin(),it2=it1;
+
+    for (unsigned int i=1; i<b1.size(); i++){
+    	it2=it1+i;
+    	K[i]=f(t0+c[i]*h,y0+h*std::inner_product(it1,it2,K.begin(),0.0));
+    	it1=it2;
+    }
+    prec y1=y0+h*std::inner_product(b1.begin(),b1.end(),K.begin(),0.0);
+    prec y2=y0+h*std::inner_product(b2.begin(),b2.end(),K.begin(),0.0);
+    error=std::abs(y2-y1);
+    return y2;
+    
   };
 
   }// end namespace
