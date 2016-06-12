@@ -1,0 +1,10 @@
+Comments to 3rd set of challenges
+
+Challenge 3.2
+In this version I assume that there is something wrong in my code, because the method seems to be non-convergent. Anyway, I didn't find the error.
+Challenge 3.3
+I made it only in the case of just one equation. I didn't have time to do the more sophisticated version.
+
+Execution
+In file main_rk45.cpp you should comment the pieces of code you need to execute.
+To compile, just follow the instructions given by typing make.
