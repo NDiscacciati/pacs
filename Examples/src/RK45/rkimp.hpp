@@ -53,24 +53,24 @@ void rkImp<prec>::computeSolution(){
     // to allow time step coarsening
     double const c2=1./64.;
 
-    double length=T-t0;
+    prec length=T-t0;
     //! Make sure that h allows to reach T
     std::size_t initialNSteps=std::max(static_cast<size_t>(1),static_cast<size_t>(length/h_initial));
-    double h=length/initialNSteps;
+    prec h=length/initialNSteps;
     // To avoid underflow we need in any case to limit the time step to a positive number
     // Here I allow h to become 128 time smaller than that giving the maximal number of steps
-    double h_min = length/(128*maxSteps);
+    prec h_min = length/(128*maxSteps);
     // SOme counters
     std::size_t stepsCounter(0);
     // Initial data
-    double time(t0);
-    double y(y0);
-    double errorPerTimeStep=final_error/initialNSteps;
+    prec time(t0);
+    prec y(y0);
+    prec errorPerTimeStep=final_error/initialNSteps;
     if (initialNSteps>=maxSteps) throw std::runtime_error("RK: initial time step h too small!");
     //std::vector<std::pair<double,double>> solution;
     solution.emplace_back(std::make_pair(t0,y0));
-    double localError;
-    double newy;
+    prec localError;
+    prec newy;
     while (time<T && stepsCounter <maxSteps)
       {
 	//Do a step
@@ -153,7 +153,7 @@ prec rkImp<prec>::rkImp_step(prec const & y0, prec const & t0, prec const & h, p
     prec y1=y0+h*std::inner_product(b1.begin(),b1.end(),K.begin(),0.0);
     prec y2=y0+h*std::inner_product(b2.begin(),b2.end(),K.begin(),0.0);
     error=std::abs(y2-y1);
-    cout<<error<<endl;
+    //cout<<error<<endl;
     return y2;
     
   };
