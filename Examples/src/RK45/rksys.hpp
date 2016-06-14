@@ -170,6 +170,8 @@ std::vector<prec> rksys<prec>::rksys_step(std::vector<prec> const & y0, prec con
     YY.insert(YY.begin(),t0);
     argumentType Y=convert(YY);
 
+    argumentType NullV(Y0.size()); NullV.fill(0.0);
+
     std::vector<argumentType> K(b1.size());
     K[0]=F(Y);
 
@@ -177,17 +179,18 @@ std::vector<prec> rksys<prec>::rksys_step(std::vector<prec> const & y0, prec con
 
     for (std::size_t i=1; i<b1.size(); i++){
     	it2=it1+i;
-    	//K[i]=f(t0+c[i]*h,y0+h*std::inner_product(it1,it2,K.begin(),0.0));
         argumentType tmp(Y.size()); tmp[0]=t0+c[i]*h;
-        argumentType NullV(Y0.size());
-        argumentType aux=Y0+h*std::inner_product(it1,it2,K.begin(),NullV);
+        //argumentType NullV(Y0.size());
+        //argumentType aux=Y0+h*std::inner_product(it1,it2,K.begin(),NullV);
+        argumentType aux=Y0+h*std::inner_product(it1,it2,K.begin(),argumentType(Y0.size()));
         for (unsigned int j=1; j<tmp.size(); j++) tmp[j]=aux[j-1];
         K[i]=F(tmp);
     	it1=it2;
     }
     
-    argumentType Y1=Y0+h*std::inner_product(b1.begin(),b1.end(),K.begin(),argumentType(Y.size()-1));
-    argumentType Y2=Y0+h*std::inner_product(b2.begin(),b2.end(),K.begin(),argumentType(Y.size()-1));
+    argumentType Y1=Y0+h*std::inner_product(b1.begin(),b1.end(),K.begin(),NullV);
+    argumentType Y2=Y0+h*std::inner_product(b2.begin(),b2.end(),K.begin(),NullV);
+    cout<<"Y0"<<Y0<<endl<<endl<<Y1<<endl<<endl<<Y2<<endl<<"h="<<h<<endl;
     error=(Y2-Y1).norm();
     //cout<<error<<endl;
     return convert2(Y2);

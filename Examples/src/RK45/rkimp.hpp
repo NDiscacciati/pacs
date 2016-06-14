@@ -145,7 +145,7 @@ prec rkImp<prec>::rkImp_step(prec const & y0, prec const & t0, prec const & h, p
         DiscreteJacobian J(&F);
         NewtonOptions optNewton{1e-6,1.e-8,100};
         argumentType yy(1);
-        yy[0]=y0;
+        yy[0]=K[i-1];
         NewtonStatus result=Newton(F,J,yy,optNewton);
     	K[i]=yy[0];
     	it1=it2;

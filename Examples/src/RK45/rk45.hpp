@@ -111,6 +111,7 @@ void rk<prec>::computeSolution(){
 template<class prec>
 void rk<prec>::setButcher45(){
 a.resize(15); b1.resize(6); b2.resize(6); c.resize(6);
+//std::cout<<"Using RK45"<<std::endl;
 a[0]=1./4.; a[1]=3./32.; a[2]=9./32.; a[3]=1932./2197.; a[4]=-7200./2197.; a[5]=7296./2197.;
 a[6]=439./216.; a[7]=-8.; a[8]=3680./513.; a[9]=-845./4104.; 
 a[10]=-8./27.; a[11]=2.; a[12]=-3544./2565.; a[13]=1859./4104.; a[14]=-11./40;
@@ -125,6 +126,7 @@ b2[0]=16./135.; b2[1]=0.; b2[2]=6656./12825.; b2[3]=28561./56430.; b2[4]=-9./50.
 template<class prec>
 void rk<prec>::setButcher23(){
 a.resize(6); b1.resize(4); b2.resize(4); c.resize(4);
+//std::cout<<"Using RK23"<<std::endl;
 a[0]=1./2.; a[1]=0.0; a[2]=3./4.; a[3]=2./9.; a[4]=1./3.; a[5]=4./9.;
 
 c[0]=0.; c[1]=a[0]; c[2]=a[1]+a[2]; c[3]=a[3]+a[4]+a[5];
@@ -140,8 +142,8 @@ prec rk<prec>::rk_step(prec const & y0, prec const & t0, prec const & h, prec & 
   {
     using namespace std;
     auto f=dy;
-    setButcher45();
-    //setButcher23();
+    //setButcher45();
+    setButcher23();
 
     std::vector<prec> K(b1.size());
     K[0]=f(t0,y0);
