@@ -10,9 +10,9 @@ int main()
   using namespace std;
   using namespace ODE;
   using namespace NonLinearSystems;
-  //  auto fun = [](double const & t, double const & y){return -10*y;};
+  // auto fun = [](double const & t, double const & y){return -10*y;};
   // auto fun = [](double const & t, double const & y){return -std::sin(t);};
-  auto fun=[](double const &t, double const & y){return 1.0;};
+   auto fun=[](double const &t, double const & y){return 1.0;};
   double t0=0;
   double y0=1;
   double T=100;
@@ -20,23 +20,42 @@ int main()
   double errorDesired=1.e-7;
   int status;
 
-/*
+
+//part 1
   //Template version
   rk<double> tmp(fun,t0,T,y0,h_init,(T-t0)/4.,errorDesired,status,10000);
   tmp.computeSolution();
   auto result=tmp.getSolution();
 
+  ofstream file("result.dat");
+  std::cout<<"Writing on file basic version"<<std::endl;
+  for (auto v : result)
+  file<<v.first<<" "<<v.second<<std::endl;
+  file.close();
+//end of part 1
 
+ /* 
+ //part 2
   //Diagonally implicit
   rkImp<double> tmp2(fun,t0,T,y0,h_init,(T-t0)/4.,errorDesired,status,10000);
   tmp2.computeSolution();
   auto result2=tmp2.getSolution();
+
+  ofstream file("result.dat");
+  std::cout<<"Writing on file diagonally implicit"<<std::endl;
+  for (auto v : result2)
+  file<<v.first<<" "<<v.second<<std::endl;
+  file.close();
+//end of part 2
   */
 
+
+/*
+//part 3
   //System
   //auto f1=[] (argumentType const & y){return y[1];};
-  auto f1=[] (argumentType const & y){return 1.0;};
-  auto f2=[] (argumentType const & y){return 1.0;};
+  auto f1=[] (argumentType const & y){return -y[1];};
+  auto f2=[] (argumentType const & y){return -y[2];};
   std::vector<std::function<double (argumentType const & y)> > Y;
   Y.push_back(f1); Y.push_back(f2);
   std::vector<double> Y0(2,1.0);
@@ -45,11 +64,14 @@ int main()
   auto resultsys=sys.getSolution();
 
   ofstream file("result.dat");
-  std::cout<<"Writing on file"<<std::endl;
+  std::cout<<"Writing on file for systems"<<std::endl;
   for (auto v : resultsys)
     file<<v.first<<" "<<v.second<<std::endl;
   file.close();
-  
+//end of part 3
+*/
+
+
 /*
   // Only if I know the exact solution
   //auto exact=[](double const &t){return std::exp(-10.*t);}
