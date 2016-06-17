@@ -1,5 +1,7 @@
 Comments to 3rd set of challenges
 
+The most significant changes are in the files named rk45.hpp (despite the name, it provides also the version of RK23, as in challenge 3.1), rkimp.hpp and rksys.hpp
+
 The basic versions (e.g. RK45 and RK23) work fine, while the other versions (challenges 3.2,3.3) sometimes have a bug but I cannot find it (for almost trivial functions the code seems correct). 
 
 I didn't have time to modify the files for non-linear systems and make them generic (i.e. using templates) as the RK classes. 
