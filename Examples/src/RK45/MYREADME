@@ -2,9 +2,10 @@ Comments to 3rd set of challenges
 
 The most significant changes are in the files named rk45.hpp (despite the name, it provides also the version of RK23, as in challenge 3.1), rkimp.hpp and rksys.hpp
 
-The basic versions (e.g. RK45 and RK23) work fine, while the other versions (challenges 3.2,3.3) sometimes have a bug but I cannot find it (for almost trivial functions the code seems correct). 
-
-I didn't have time to modify the files for non-linear systems and make them generic (i.e. using templates) as the RK classes. 
+The basic versions (e.g. RK45 and RK23) work fine, while the other versions (challenges 3.2,3.3) sometimes have a bug (the code compiles and runs, but the solution is not correct) but I cannot find it (for almost trivial functions the code seems correct). 
+For this reason, you may check them, but they are not supposed to work correctly with all functions.
+I also didn't have time to modify the files for non-linear systems and make them generic (i.e. using templates) as the RK classes.
+Therefore, I tried all the challenges, but the points 3.2 and 3.3 are not so good.
 
 Execution
 In file main_rk45.cpp you have to uncomment the parts of the code you want to compile/run.
